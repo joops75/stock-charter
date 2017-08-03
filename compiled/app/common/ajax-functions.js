@@ -34,6 +34,7 @@ var ajaxFunctions = {
   //   xmlhttp.send()
   // },
   ajaxDeleteRequest: function ajaxRequest(method, url, symbol, callback) {
+    //generates xml error at /api/stocks in firefox but still works (chrome all ok)
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function () {
       if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {

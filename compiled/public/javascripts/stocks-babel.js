@@ -97,7 +97,8 @@ var DisplayStocks = function (_React$Component) {
           if (parsedData['Error Message']) {
             _this4.displayMessage('Stock symbol invalid!');
           } else {
-            // ajaxFunctions.ready(ajaxFunctions.ajaxSaveRequest('POST', appUrl + '/api/stocks', JSON.stringify(parsedData), (info) => {//method doesn't work on Heroku (data too large for request header)
+            // following ajax method doesn't work on Heroku (data too large for request header, error code 400)
+            // ajaxFunctions.ready(ajaxFunctions.ajaxSaveRequest('POST', appUrl + '/api/stocks', JSON.stringify(parsedData), (info) => {
             //   var parsedInfo = JSON.parse(info)
             //   var stk
             //   var sym
@@ -142,7 +143,8 @@ var DisplayStocks = function (_React$Component) {
     value: function addOrReplaceStock(stock, symbol) {
       var symbols = this.state.symbols;
       var stocks = this.state.stocks;
-      if (symbols.includes(symbol)) {
+      if (symbols.indexOf(symbol) != -1) {
+        //'includes' method doesn't work in Chrome unless version is 47 or more, used 'indexOf' instead
         var stockPosition = symbols.indexOf(symbol);
         stocks.splice(stockPosition, 1);
         stocks.splice(stockPosition, 0, stock);
