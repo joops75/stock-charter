@@ -1,0 +1,41 @@
+{
+  "version": 3,
+  "sources": [
+    "index.js"
+  ],
+  "names": [
+    "path",
+    "require",
+    "directory",
+    "__dirname",
+    "folder",
+    "split",
+    "length",
+    "arr",
+    "StocksHandler",
+    "join",
+    "process",
+    "cwd",
+    "module",
+    "exports",
+    "app",
+    "db",
+    "stocksHandler",
+    "route",
+    "get",
+    "req",
+    "res",
+    "sendFile",
+    "getStocks",
+    "post",
+    "saveStock",
+    "delete",
+    "deleteStock"
+  ],
+  "mappings": "AAAA;;AAEA,IAAIA,OAAOC,QAAQ,MAAR,CAAX;AACA,IAAIC,YAAYC,SAAhB;AACA,IAAIC,MAAJ;AACA,IAAIF,UAAUG,KAAV,CAAgB,IAAhB,EAAsBC,MAAtB,GAA+B,CAAnC,EAAsC;AAAC;AACrC,MAAIC,MAAML,UAAUG,KAAV,CAAgB,IAAhB,CAAV;AACAD,WAASG,IAAIA,IAAID,MAAJ,GAAa,CAAjB,CAAT;AACD,CAHD,MAGO;AAAC;AACN,MAAIC,MAAML,UAAUG,KAAV,CAAgB,GAAhB,CAAV;AACAD,WAASG,IAAIA,IAAID,MAAJ,GAAa,CAAjB,CAAT;AACD;;AAED,IAAIE,gBAAgBP,QAAQD,KAAKS,IAAL,CAAUC,QAAQC,GAAR,KAAgB,GAAhB,GAAsBP,MAAtB,GAA+B,0CAAzC,CAAR,CAApB;;AAEAQ,OAAOC,OAAP,GAAiB,UAASC,GAAT,EAAcC,EAAd,EAAkB;AACjC,MAAIC,gBAAgB,IAAIR,aAAJ,CAAkBO,EAAlB,CAApB;AACAD,MAAIG,KAAJ,CAAU,GAAV,EACGC,GADH,CACO,UAASC,GAAT,EAAcC,GAAd,EAAmB;AACtBA,QAAIC,QAAJ,CAAarB,KAAKS,IAAL,CAAUC,QAAQC,GAAR,KAAgB,GAAhB,GAAsBP,MAAtB,GAA+B,qBAAzC,CAAb;AACD,GAHH;AAIAU,MAAIG,KAAJ,CAAU,aAAV,EACGC,GADH,CACOF,cAAcM,SADrB,EAEGC,IAFH,CAEQP,cAAcQ,SAFtB,EAGGC,MAHH,CAGUT,cAAcU,WAHxB;AAID,CAVD",
+  "file": "index.js",
+  "sourceRoot": "../../../src/app/routes",
+  "sourcesContent": [
+    "'use strict'\r\n\r\nvar path = require('path')\r\nvar directory = __dirname\r\nvar folder\r\nif (directory.split('\\\\').length > 1) {//indicates address is split by back slashes (windows environment)\r\n  var arr = directory.split('\\\\')\r\n  folder = arr[arr.length - 3]\n} else {//indicates address is split by forward slashes (linux environment)\r\n  var arr = directory.split('/')\r\n  folder = arr[arr.length - 3]\r\n}\r\n\r\nvar StocksHandler = require(path.join(process.cwd() + '/' + folder + \"/app/controllers/stocksHandler.server.js\"))\r\n\r\nmodule.exports = function(app, db) {\r\n  var stocksHandler = new StocksHandler(db)\r\n  app.route('/')\r\n    .get(function(req, res) {\r\n      res.sendFile(path.join(process.cwd() + '/' + folder + '/public/stocks.html'))\r\n    })\r\n  app.route('/api/stocks')\r\n    .get(stocksHandler.getStocks)\r\n    .post(stocksHandler.saveStock)\r\n    .delete(stocksHandler.deleteStock)\r\n}\r\n"
+  ]
+}

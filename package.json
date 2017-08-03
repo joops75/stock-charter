@@ -1,0 +1,33 @@
+{
+  "name": "stock_charter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/server.js",
+  "engines": {
+    "npm": "3.10.10",
+    "node": "6.11.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon src/server.js --exec babel-node",
+    "serve": "node compiled/server.js",
+    "compile": "babel-compile -p env -p react src:compiled",
+    "sass": "node-sass -w src/public/scss/ -o src/public/css/"
+  },
+  "author": "Simon Cooper",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "dotenv": "^4.0.0",
+    "express": "^4.15.3",
+    "mongodb": "^2.2.30",
+    "socket.io": "^2.0.3"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-compile": "^2.0.0",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-react": "^6.24.1",
+    "nodemon": "^1.11.0"
+  }
+}

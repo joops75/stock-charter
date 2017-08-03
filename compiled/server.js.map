@@ -1,0 +1,49 @@
+{
+  "version": 3,
+  "sources": [
+    "server.js"
+  ],
+  "names": [
+    "express",
+    "require",
+    "app",
+    "http",
+    "Server",
+    "io",
+    "routes",
+    "mongo",
+    "MongoClient",
+    "path",
+    "bodyParser",
+    "port",
+    "process",
+    "env",
+    "PORT",
+    "load",
+    "on",
+    "socket",
+    "emit",
+    "ALPHA_VANTAGE_KEY",
+    "msg",
+    "broadcast",
+    "connect",
+    "MONGO_URI",
+    "err",
+    "db",
+    "Error",
+    "use",
+    "static",
+    "join",
+    "__dirname",
+    "json",
+    "urlencoded",
+    "extended",
+    "listen"
+  ],
+  "mappings": "AAAA;;AAEA,IAAIA,UAAUC,QAAQ,SAAR,CAAd;AAAA,IACEC,MAAMF,SADR;AAAA,IAEEG,OAAOF,QAAQ,MAAR,EAAgBG,MAAhB,CAAuBF,GAAvB,CAFT;AAAA,IAGEG,KAAKJ,QAAQ,WAAR,EAAqBE,IAArB,CAHP;AAAA,IAIEG,SAASL,QAAQ,uBAAR,CAJX;AAAA,IAKEM,QAAQN,QAAQ,SAAR,EAAmBO,WAAnB,EALV;AAAA,IAMEC,OAAOR,QAAQ,MAAR,CANT;AAAA,IAOES,aAAaT,QAAQ,aAAR,CAPf;AAAA,IAQEU,OAAOC,QAAQC,GAAR,CAAYC,IAAZ,IAAoB,IAR7B;AASAb,QAAQ,QAAR,EAAkBc,IAAlB;;AAEAV,GAAGW,EAAH,CAAM,YAAN,EAAoB,UAASC,MAAT,EAAgB;AAClCA,SAAOD,EAAP,CAAU,YAAV,EAAwB,YAAU;AAChCC,WAAOC,IAAP,CAAY,KAAZ,EAAmBN,QAAQC,GAAR,CAAYM,iBAA/B,EADgC,CACiB;AAClD,GAFD;AAGAF,SAAOD,EAAP,CAAU,KAAV,EAAiB,UAASI,GAAT,EAAa;AAC5BH,WAAOI,SAAP,CAAiBH,IAAjB,CAAsB,KAAtB,EAA6BE,GAA7B,EAD4B,CACK;AAClC,GAFD;AAGAH,SAAOD,EAAP,CAAU,QAAV,EAAoB,UAASI,GAAT,EAAa;AAC/BH,WAAOI,SAAP,CAAiBH,IAAjB,CAAsB,QAAtB,EAAgCE,GAAhC;AACD,GAFD;AAGD,CAVD;;AAYAb,MAAMe,OAAN,CAAcV,QAAQC,GAAR,CAAYU,SAA1B,EAAqC,UAASC,GAAT,EAAcC,EAAd,EAAkB;AACrD,MAAID,GAAJ,EAAS;AACP,UAAM,IAAIE,KAAJ,CAAU,4BAAV,CAAN;AACD;AACDxB,MAAIyB,GAAJ,CAAQ,SAAR,EAAmB3B,QAAQ4B,MAAR,CAAenB,KAAKoB,IAAL,CAAUC,YAAY,SAAtB,CAAf,CAAnB;AACA5B,MAAIyB,GAAJ,CAAQ,SAAR,EAAmB3B,QAAQ4B,MAAR,CAAenB,KAAKoB,IAAL,CAAUC,YAAY,aAAtB,CAAf,CAAnB;AACA5B,MAAIyB,GAAJ,CAAQ,cAAR,EAAwB3B,QAAQ4B,MAAR,CAAenB,KAAKoB,IAAL,CAAUC,YAAY,kBAAtB,CAAf,CAAxB;AACA5B,MAAIyB,GAAJ,CAAQjB,WAAWqB,IAAX,EAAR;AACA7B,MAAIyB,GAAJ,CAAQjB,WAAWsB,UAAX,CAAsB,EAAEC,UAAU,IAAZ,EAAtB,CAAR;AACA3B,SAAOJ,GAAP,EAAYuB,EAAZ;;AAEAtB,OAAK+B,MAAL,CAAYvB,IAAZ;AACD,CAZD",
+  "file": "server.js",
+  "sourceRoot": "../src",
+  "sourcesContent": [
+    "'use strict'\r\n\r\nvar express = require(\"express\"),\r\n  app = express(),\r\n  http = require('http').Server(app),\r\n  io = require('socket.io')(http),\r\n  routes = require(\"./app/routes/index.js\"),\r\n  mongo = require(\"mongodb\").MongoClient(),\r\n  path = require('path'),\r\n  bodyParser = require('body-parser'),\r\n  port = process.env.PORT || 3000\r\nrequire(\"dotenv\").load()\r\n\nio.on('connection', function(socket){\r\n  socket.on('keyRequest', function(){\r\n    socket.emit('key', process.env.ALPHA_VANTAGE_KEY)//socket.emit just sends info to own socket\r\n  })\r\n  socket.on('add', function(msg){\r\n    socket.broadcast.emit('add', msg)//broadcast to everyone but here (io.emit and io.sockets.emit sends to everyone including here)\r\n  })\r\n  socket.on('delete', function(msg){\r\n    socket.broadcast.emit('delete', msg)\r\n  })\r\n})\n\r\nmongo.connect(process.env.MONGO_URI, function(err, db) {\r\n  if (err) {\r\n    throw new Error('database failed to connect')\r\n  }\r\n  app.use('/public', express.static(path.join(__dirname + '/public')))\r\n  app.use('/common', express.static(path.join(__dirname + '/app/common')))\r\n  app.use('/controllers', express.static(path.join(__dirname + '/app/controllers')))\r\n  app.use(bodyParser.json())\r\n  app.use(bodyParser.urlencoded({ extended: true }))\r\n  routes(app, db)\r\n\r\n  http.listen(port)\r\n})\r\n"
+  ]
+}

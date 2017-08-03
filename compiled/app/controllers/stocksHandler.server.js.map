@@ -1,0 +1,49 @@
+{
+  "version": 3,
+  "sources": [
+    "stocksHandler.server.js"
+  ],
+  "names": [
+    "stocksHandler",
+    "db",
+    "stocks",
+    "collection",
+    "getStocks",
+    "req",
+    "res",
+    "stockProjection",
+    "find",
+    "toArray",
+    "err",
+    "documents",
+    "json",
+    "saveStock",
+    "stock",
+    "body",
+    "stockdata",
+    "parsedStock",
+    "JSON",
+    "parse",
+    "symbol",
+    "findOneAndReplace",
+    "data",
+    "projection",
+    "upsert",
+    "returnNewDocument",
+    "findOne",
+    "doc",
+    "deleteStock",
+    "headers",
+    "symboldata",
+    "remove",
+    "end",
+    "module",
+    "exports"
+  ],
+  "mappings": "AAAA;;AAEA,SAASA,aAAT,CAAuBC,EAAvB,EAA2B;AACzB,MAAIC,SAASD,GAAGE,UAAH,CAAc,QAAd,CAAb;;AAEA,OAAKC,SAAL,GAAiB,UAASC,GAAT,EAAcC,GAAd,EAAmB;AAClC,QAAIC,kBAAkB,EAAC,OAAO,KAAR,EAAtB;AACAL,WAAOM,IAAP,CAAY,EAAZ,EAAgBD,eAAhB,EAAiCE,OAAjC,CAAyC,UAASC,GAAT,EAAcC,SAAd,EAAyB;AAChE,UAAID,GAAJ,EAAS,MAAMA,GAAN;AACTJ,UAAIM,IAAJ,CAASD,SAAT;AACD,KAHD;AAID,GAND;AAOA,OAAKE,SAAL,GAAiB,UAASR,GAAT,EAAcC,GAAd,EAAmB;AAClC,QAAIQ,QAAQT,IAAIU,IAAJ,CAASC,SAArB;AACA,QAAIC,cAAcC,KAAKC,KAAL,CAAWL,KAAX,CAAlB;AACA,QAAIM,SAASH,YAAY,WAAZ,EAAyB,WAAzB,CAAb;AACA,QAAIV,kBAAkB,EAAC,OAAO,KAAR,EAAtB;AACAL,WAAOmB,iBAAP,CAAyB,EAACD,QAAQA,MAAT,EAAzB,EAA2C,EAACE,MAAMR,KAAP,EAAcM,QAAQA,MAAtB,EAA3C,EAA0E,EAACG,YAAYhB,eAAb,EAA8BiB,QAAQ,IAAtC,EAA4CC,mBAAmB,IAA/D,EAA1E,EAAgJ,UAASf,GAAT,EAAc;AAAC;AAC7J,UAAIA,GAAJ,EAAS,MAAMA,GAAN;AACTR,aAAOwB,OAAP,CAAe,EAACN,QAAQA,MAAT,EAAf,EAAiCb,eAAjC,EAAkD,UAASG,GAAT,EAAciB,GAAd,EAAmB;AACnE,YAAIjB,GAAJ,EAAS,MAAMA,GAAN;AACTJ,YAAIM,IAAJ,CAASe,GAAT;AACD,OAHD;AAID,KAND;AAOD,GAZD;AAaA,OAAKC,WAAL,GAAmB,UAASvB,GAAT,EAAcC,GAAd,EAAmB;AACpC,QAAIc,SAASf,IAAIwB,OAAJ,CAAYC,UAAzB;AACA5B,WAAO6B,MAAP,CAAc,EAACX,QAAQA,MAAT,EAAd,EAAgC,UAASV,GAAT,EAAc;AAC5C,UAAIA,GAAJ,EAAS,MAAMA,GAAN;AACTJ,UAAI0B,GAAJ,CAAQ,SAAR,EAF4C,CAE1B;AACnB,KAHD;AAIA;AACD,GAPD;AAQD;;AAEDC,OAAOC,OAAP,GAAiBlC,aAAjB",
+  "file": "stocksHandler.server.js",
+  "sourceRoot": "../../../src/app/controllers",
+  "sourcesContent": [
+    "'use strict'\r\n\r\nfunction stocksHandler(db) {\r\n  var stocks = db.collection('stocks')\r\n\r\n  this.getStocks = function(req, res) {\r\n    var stockProjection = {\"_id\": false}\r\n    stocks.find({}, stockProjection).toArray(function(err, documents) {\n      if (err) throw err\n      res.json(documents)\r\n    })\r\n  }\r\n  this.saveStock = function(req, res) {\r\n    var stock = req.body.stockdata\r\n    var parsedStock = JSON.parse(stock)\r\n    var symbol = parsedStock['Meta Data']['2. Symbol']\r\n    var stockProjection = {\"_id\": false}\r\n    stocks.findOneAndReplace({symbol: symbol}, {data: stock, symbol: symbol}, {projection: stockProjection, upsert: true, returnNewDocument: true}, function(err) {//upsert: true inserts new doc if doc not found\r\n      if (err) throw err\r\n      stocks.findOne({symbol: symbol}, stockProjection, function(err, doc) {\r\n        if (err) throw err\r\n        res.json(doc)\r\n      })\r\n    })\r\n  }\r\n  this.deleteStock = function(req, res) {\r\n    var symbol = req.headers.symboldata\r\n    stocks.remove({symbol: symbol}, function(err) {\r\n      if (err) throw err\r\n      res.end('deleted')//must respond with *something* so ajax callback is triggered which emits socket event\r\n    })\r\n    // db.close()//keep db open\r\n  }\r\n}\r\n\r\nmodule.exports = stocksHandler\r\n"
+  ]
+}
