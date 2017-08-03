@@ -1,0 +1,86 @@
+body {
+  background: url("/public/img/stocks-background.jpg");
+  background-size: cover;
+  background-attachment: fixed;
+  font-family: 'Source Sans Pro', sans-serif;
+  text-align: center; }
+
+h2 {
+  font-family: 'Patua One', cursive;
+  color: black;
+  font-size: 40px;
+  font-weight: bolder;
+  padding-top: 10px; }
+
+#frame {
+  width: 1050px;
+  margin: auto;
+  margin-top: 25px;
+  margin-bottom: 25px; }
+
+#page {
+  background: #99ff99;
+  width: 1000px;
+  margin-left: 25px;
+  border-radius: 10px; }
+
+input {
+  margin-right: 5px; }
+
+button {
+  margin-left: 5px; }
+
+#message {
+  margin-top: 5px;
+  margin-bottom: 5px; }
+
+table {
+  margin: auto; }
+
+tr {
+  width: 280px;
+  height: 30px; }
+
+td {
+  width: 70px;
+  background: #325032;
+  color: white;
+  padding: 5px;
+  border-right: solid #99ff99 3px;
+  border-bottom: solid #99ff99 3px; }
+
+.cell {
+  display: inline;
+  line-height: 30px;
+  text-align: left; }
+
+i {
+  display: inline;
+  float: right;
+  cursor: pointer;
+  margin-top: 8px; }
+
+#chart {
+  background: #99ff99;
+  height: 550px;
+  border-radius: 10px; }
+
+svg {
+  background: honeydew;
+  margin-top: 25px;
+  border-radius: 10px; }
+
+.axis path, .axis line {
+  stroke: black;
+  shape-rendering: crispEdges; }
+
+.line {
+  fill: none;
+  stroke-width: 1.5px; }
+
+text, .label {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 12px; }
+
+.label {
+  font-weight: normal; }

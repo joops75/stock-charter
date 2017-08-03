@@ -1,0 +1,116 @@
+$background-color: green;
+$page-color: rgb(153, 255, 153);
+$page-width: 1000px;//matches width in chart.js plus 2x svg-margin
+$border-radius: 10px;
+$table-row-width: 280px;
+$table-row-height: 30px;
+$table-columns: 4;//set in stocks-babel.js in state variable "stockTableColumns"
+$table-cell-width: $table-row-width / $table-columns;
+$table-cell-border-width: 3px;
+$svg-background-color: rgb(240, 255, 240);
+$svg-height: 500px;//set in chart.js
+$svg-margin: 25px;
+
+body {
+  background: url('/public/img/stocks-background.jpg');
+  background-size: cover;
+  background-attachment: fixed;
+  font-family: 'Source Sans Pro', sans-serif;
+  text-align: center;
+}
+
+h2 {
+  font-family: 'Patua One', cursive;
+  color: black;
+  font-size: 40px;
+  font-weight: bolder;
+  padding-top: 10px;
+}
+
+#frame {
+  width: $page-width + (2 * $svg-margin);
+  margin: auto;
+  margin-top: $svg-margin;
+  margin-bottom: $svg-margin;
+}
+
+#page {
+  background: $page-color;
+  width: $page-width;
+  margin-left: $svg-margin;
+  border-radius: $border-radius;
+}
+
+input {
+  margin-right: 5px;
+}
+
+button {
+  margin-left: 5px;
+}
+
+#message {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+table {
+  margin: auto;
+}
+tr {
+  width: $table-row-width;
+  height: $table-row-height;
+}
+
+td {
+  width: $table-cell-width;
+  background: rgb(50, 80, 50);
+  color: white;
+  padding: 5px;
+  border-right: solid $page-color $table-cell-border-width;
+  border-bottom: solid $page-color $table-cell-border-width;
+}
+
+.cell {
+  display: inline;
+  line-height: $table-row-height;
+  text-align: left;
+}
+
+i {
+  display: inline;
+  float: right;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+#chart {
+  background: $page-color;
+  height: $svg-height + (2 * $svg-margin);
+  border-radius: $border-radius;
+}
+
+svg {
+  background: $svg-background-color;
+  margin-top: $svg-margin;
+  border-radius: $border-radius;
+}
+
+.axis path, .axis line {
+	stroke: black;
+	shape-rendering: crispEdges;
+}
+
+.line {
+  fill: none;
+  stroke-width: 1.5px;
+}
+
+text {
+	font-family: 'Source Sans Pro', sans-serif;
+  font-size: 12px;
+}
+
+.label {
+  @extend text;
+  font-weight: normal;
+}
